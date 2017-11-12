@@ -12,7 +12,8 @@
 You can establish a VPN connection from Terminal refer to (help.txt) for instructions     
 
 
-#Installation
+
+# Installation
 
 * Open Terminal 
 * git clone `https://github.com/tecmie/ovpn.git`    
