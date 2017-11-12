@@ -1,0 +1,13 @@
+OPTION DESCRIPTIONS:
+
+"Profile"   Select profile from list
+"Connect"   Connect to your selected profile
+"Download"  Download VPN Profiles // currently from vpnbooks and vpnkeys
+"Clean"     Remove all profiles
+"Ports"     Outbound port and port range tester – Firewall tester
+"Install"   Install OpenVPN For Debian/Redhat
+"Credits"   Credits and donations
+
+This Script retrieves its passwords fom web in ovpn profile Files, which anyone can create 
+
+
