@@ -1,0 +1,11 @@
+OPTION DESCRIPTION:
+"Profile"   Select profile from list
+"Connect"   Connect to selected profile
+"Download"  Download free VPN profiles
+"Clean"     Remove all profiles
+"Ports"     Outbound port and port range tester – Firewall tester
+"Install"   Install OpenVPN
+"Credits"   Credits and donations
+
+Script automaticaly retrievs passwords from VPNBooks and VPNKeys Website
+Write to me@andrewmiracle.com for more info and error reporting.

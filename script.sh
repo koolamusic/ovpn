@@ -1,15 +1,14 @@
 #!/bin/bash
 #Author: Andrew Miracle
-#Email: andrew@wootivmedia.com
+#Email: me@andrewmiracle.com
 #Licecnce: GPL v2
-
 SELECTED_PROFILE=""
 PASSWORD=""
 USERNAME=""
 USER_BOOK="vpnbook"
 USER_KEYS="vpnkeys"
 URL_VPNBOOK="http://www.vpnbook.com/freevpn"
-URL_VPNBOOK_PROFILES="http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-Euro1.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-Euro2.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-US2.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-CA1.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-DE1.zip"
+URL_VPNBOOK_PROFILES="https://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-PL226.zip https://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-DE4.zip https://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-US1.zip https://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-CA222.zip https://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-FR1.zip"
 URL_VPNKEYS="https://www.vpnkeys.com/get-free-vpn-instantly/"
 URL_VPNKEYS_PROFILES="https://www.vpnkeys.com/us1.zip https://www.vpnkeys.com/uk1.zip https://www.vpnkeys.com/nl1.zip https://www.vpnkeys.com/sg1.zip"
 IMPORTANT="IMPORTANT! Press CTRL+C to end when in connection!"
@@ -26,9 +25,9 @@ function CLS
 function PrintTopMenuInfo()
 {
 	echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
-	echo "––––––––––––––––––----– Free VPN box  for linux distro ----–––––––––––––––––––––"
+	echo "––––––––––––––––––----– Free VPN Connect for linux --------–––––––––––––––––––––"
 	echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
-	echo "--------------- Supported services:  www.VPNbook.com, www.VPNkeys.com ----------"
+	echo "––––– Supported services: www.FreeVPN.me, www.VPNbook.com, www.VPNkeys.com –––––"
 	echo "––––––––––– Please donate to continue supporting free VPN services –––––––––––––"
 	echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
 }
@@ -111,23 +110,19 @@ function UpdatePassword()
 	## SCRIPT FOR GETTING PASSWORD FROM VPNBOOK - FREE VPN
 	local SAVE_TO="$DIR/$PROFILES_DIR/$PASSWORD_FILE"
 	
-	PASSWORD_LINE_PHARSE="Password"
 	
-	## get page with password | find line with pass | get last line | remove white spaces   
-	local PWD=$(wget -T 2 -q -O - "$@" "$url" | grep -n "$PASSWORD_LINE_PHARSE" | tail -1 | tr -d ' ')
+	URL="https://www.vpnbook.com/freevpn"
+	PWD_IMG=$(wget -T 2 -q -O - "$@" "$URL" | grep -n Password | tail -1 | tr -d ' ' | tr -d '"' )
+	PWD_IMG=${PWD_IMG%/*}
+	PWD_IMG=${PWD_IMG%/*}
+	PWD_IMG=${PWD_IMG##*<}
+	PWD_IMG=${PWD_IMG#*=}
 
-	### for PWD we get: 154: <li>Password:<strong>fra4agaV</strong></li>
-	local PWD=${PWD%<*} # remove text after last '<'
-	# repeat only if extracting vpnbook password
-	if [ "$USERNAME" = "vpnbook" ]
-	then local PWD=${PWD%<*} 
-	fi
-	local PWD=${PWD##*>} # remove text before last '>'
 
-	#remove Password: from string in case of vpnkeys service	
-	if [ "$USERNAME" = "vpnkeys" ]
-	then local PWD=${PWD##*:}
-	fi
+	PWD_IMG="https://www.vpnbook.com/"$PWD_IMG
+	wget "$PWD_IMG" --output-document=pwd.png
+	local PWD=$(gocr pwd.png)
+
 	
 	PASSWORD=$PWD
 	if [ -f $SAVE_TO ]
